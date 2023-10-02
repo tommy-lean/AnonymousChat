@@ -11,7 +11,7 @@ function App() {
   return (
       <>
           <div className="backgroundImage container-fluid">
-                <NaviBar></NaviBar>
+                <NaviBar>asdf</NaviBar>
                 <AboutUs></AboutUs>
                 <ModalWindow></ModalWindow>
           </div>
