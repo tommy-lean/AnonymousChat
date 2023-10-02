@@ -13,7 +13,7 @@ function App() {
           <div className="backgroundImage container-fluid">
                 <NaviBar></NaviBar>
                 <AboutUs></AboutUs>
-                <ModalWindow>фывфыв</ModalWindow>
+                <ModalWindow></ModalWindow>
           </div>
       </>
 );
