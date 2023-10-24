@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TestProject.Context;
 using TestProject.Dtos;
+using TestProject.Models;
 using TestProject.Services;
 
 namespace TestProject.Controllers;
@@ -24,4 +25,13 @@ public class WeatherForecastController : ControllerBase
         var result = await _myService.CreateUser(userInfo, cancellationToken);
         return Ok(result);
     }
+    // -----
+    [HttpGet(Name = "AuthenticationUser")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    public async Task<ActionResult<Guid>> AuthenticationUser(UserDto userInfo, CancellationToken cancellationToken, User userServerInfo)
+    {
+        var result = await _myService.AuthenticationUser(userInfo, cancellationToken, userServerInfo);
+        return Ok(result);
+    }
+    // -----
 }
