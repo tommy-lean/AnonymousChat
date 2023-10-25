@@ -18,6 +18,12 @@ public class MyService : IMyService
 
      public async Task<Guid> CreateUser(UserDto userInfo, CancellationToken cancellationToken)
      {
+         var existUser = await _appDbContext.Users.Where(q => q.FirstName == userInfo.Name)
+             .FirstOrDefaultAsync(cancellationToken);
+         if (existUser != null)
+         {
+             throw new ArgumentException($"Пользователь с именем {userInfo.Name}");
+         }
          var user = new User(Guid.NewGuid(), userInfo.Name, userInfo.Password);
          _appDbContext.Users.Add(user);
          await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -25,19 +31,15 @@ public class MyService : IMyService
          return user.Id;
      }
 
-     public async Task<bool> AuthenticationUser(UserDto userDtoInfo, CancellationToken cancellationToken, User userServerInfo)
+     public async Task<bool> AuthenticationUser(UserDto userDtoInfo, CancellationToken cancellationToken)
      {
          
-         var user =  await _appDbContext.Users.Where(q => q.FirstName == userDtoInfo.Name).SingleOrDefaultAsync(cancellationToken);
-         if (user.FirstName == userDtoInfo.Name && user.Password == userDtoInfo.Password)
+         var user =  await _appDbContext.Users.Where(q => q.FirstName == userDtoInfo.Name).FirstOrDefaultAsync(cancellationToken);
+         if (user == null)
          {
-             return await Task.FromResult(true);
+             return false;
          }
-         else
-         {
-             return await Task.FromResult(false);
-         }
-
+         return user.FirstName == userDtoInfo.Name && user.Password == userDtoInfo.Password;
      }
           
 }

@@ -7,5 +7,5 @@ public interface IMyService
 {
     public Task<Guid> CreateUser(UserDto userInfo, CancellationToken cancellationToken);
 
-    public Task<bool> AuthenticationUser(UserDto userInfo, CancellationToken cancellationToken, User userServerInfo);
+    public Task<bool> AuthenticationUser(UserDto userInfo, CancellationToken cancellationToken);
 }

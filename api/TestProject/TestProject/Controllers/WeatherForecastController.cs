@@ -19,18 +19,18 @@ public class WeatherForecastController : ControllerBase
 
     
     
-    [HttpPost(Name = "CreateUser")]
-    public async Task<ActionResult<Guid>> CreateUser(UserDto userInfo, CancellationToken cancellationToken)
+    [HttpPost("createUser")]
+    public async Task<ActionResult<Guid>> CreateUser([FromBody]UserDto userInfo, CancellationToken cancellationToken)
     {
         var result = await _myService.CreateUser(userInfo, cancellationToken);
         return Ok(result);
     }
     // -----
-    [HttpGet(Name = "AuthenticationUser")]
+    [HttpPost("authenticationUser")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-    public async Task<ActionResult<Guid>> AuthenticationUser(UserDto userInfo, CancellationToken cancellationToken, User userServerInfo)
+    public async Task<ActionResult<Guid>> AuthenticationUser([FromBody]UserDto userInfo, CancellationToken cancellationToken)
     {
-        var result = await _myService.AuthenticationUser(userInfo, cancellationToken, userServerInfo);
+        var result = await _myService.AuthenticationUser(userInfo, cancellationToken);
         return Ok(result);
     }
     // -----
