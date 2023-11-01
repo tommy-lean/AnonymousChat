@@ -18,13 +18,15 @@ public class MyService : IMyService
 
      public async Task<Guid> CreateUser(UserDto userInfo, CancellationToken cancellationToken)
      {
-         var existUser = await _appDbContext.Users.Where(q => q.FirstName == userInfo.Name)
+         var existUser = await _appDbContext.Users.Where(q => q.Login == userInfo.Login)
              .FirstOrDefaultAsync(cancellationToken);
          if (existUser != null)
          {
-             throw new ArgumentException($"Пользователь с именем {userInfo.Name}");
+             throw new ArgumentException($"Пользователь с именем {userInfo.Login} уже существует");
          }
-         var user = new User(Guid.NewGuid(), userInfo.Name, userInfo.Password);
+         var user = new User(Guid.NewGuid(), userInfo.Login, userInfo.Password, userInfo.Gender, userInfo.Name, 
+             userInfo.LastName, userInfo.DayOfBirth, userInfo.MonthOfBirth, userInfo.YearOfBirth, 
+             userInfo.IsAnonymousProfile, userInfo.IsJustChatting);
          _appDbContext.Users.Add(user);
          await _appDbContext.SaveChangesAsync(cancellationToken);
 
@@ -34,12 +36,12 @@ public class MyService : IMyService
      public async Task<bool> AuthenticationUser(UserDto userDtoInfo, CancellationToken cancellationToken)
      {
          
-         var user =  await _appDbContext.Users.Where(q => q.FirstName == userDtoInfo.Name).FirstOrDefaultAsync(cancellationToken);
+         var user =  await _appDbContext.Users.Where(q => q.Login == userDtoInfo.Login).FirstOrDefaultAsync(cancellationToken);
          if (user == null)
          {
              return false;
          }
-         return user.FirstName == userDtoInfo.Name && user.Password == userDtoInfo.Password;
+         return user.Login == userDtoInfo.Login && user.Password == userDtoInfo.Password;
      }
           
 }
