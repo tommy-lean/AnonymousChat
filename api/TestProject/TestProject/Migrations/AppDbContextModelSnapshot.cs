@@ -28,8 +28,8 @@ namespace TestProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("DayOfBirth")
-                        .HasColumnType("integer");
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -49,9 +49,6 @@ namespace TestProject.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("MonthOfBirth")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -59,9 +56,6 @@ namespace TestProject.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("YearOfBirth")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -12,8 +12,8 @@ using TestProject.Context;
 namespace TestProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231101142641_AddNewFieldsForProfile")]
-    partial class AddNewFieldsForProfile
+    [Migration("20231101153225_AddNewFields")]
+    partial class AddNewFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,8 +31,8 @@ namespace TestProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("DayOfBirth")
-                        .HasColumnType("integer");
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -52,9 +52,6 @@ namespace TestProject.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("MonthOfBirth")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -62,9 +59,6 @@ namespace TestProject.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("YearOfBirth")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

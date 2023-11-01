@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TestProject.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewFieldsForProfile : Migration
+    public partial class AddNewFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +16,12 @@ namespace TestProject.Migrations
                 table: "Users",
                 newName: "Name");
 
-            migrationBuilder.AddColumn<int>(
-                name: "DayOfBirth",
+            migrationBuilder.AddColumn<DateTimeOffset>(
+                name: "DateOfBirth",
                 table: "Users",
-                type: "integer",
+                type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)));
 
             migrationBuilder.AddColumn<string>(
                 name: "Gender",
@@ -56,27 +57,13 @@ namespace TestProject.Migrations
                 type: "text",
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "MonthOfBirth",
-                table: "Users",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "YearOfBirth",
-                table: "Users",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "DayOfBirth",
+                name: "DateOfBirth",
                 table: "Users");
 
             migrationBuilder.DropColumn(
@@ -97,14 +84,6 @@ namespace TestProject.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Login",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "MonthOfBirth",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "YearOfBirth",
                 table: "Users");
 
             migrationBuilder.RenameColumn(
