@@ -25,7 +25,7 @@ public class MyService : IMyService
              throw new ArgumentException($"Пользователь с именем {userInfo.Login} уже существует");
          }
          var user = new User(Guid.NewGuid(), userInfo.Login, userInfo.Password, userInfo.Gender, userInfo.Name, 
-             userInfo.LastName, DateTime.Now, 
+             userInfo.LastName, userInfo.DateOfBirth, 
              userInfo.IsAnonymousProfile, userInfo.IsJustChatting);
          _appDbContext.Users.Add(user);
          await _appDbContext.SaveChangesAsync(cancellationToken);
