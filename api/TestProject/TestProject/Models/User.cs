@@ -4,16 +4,12 @@ namespace TestProject.Models;
 
 public class User : Entity<Guid>
 {
-    public User(Guid id, string login, string password, string gender, string name, string lastName, DateTimeOffset dateOfBirth, bool isAnonymousProfile, bool isJustChatting) : base(id)
+    public User(Guid id, string login, string password, string name) : base(id)
     {
         Login = login;
         Password = password;
-        Gender = gender;
         Name = name;
-        LastName = lastName;
-        DateOfBirth = dateOfBirth;
-        IsAnonymousProfile = isAnonymousProfile;
-        IsJustChatting = isJustChatting;
+        
     }
 
     public string Login { get; set; }

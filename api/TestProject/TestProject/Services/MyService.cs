@@ -24,12 +24,14 @@ public class MyService : IMyService
          {
              throw new ArgumentException($"Пользователь с именем {userInfo.Login} уже существует");
          }
-         var user = new User(Guid.NewGuid(), userInfo.Login, userInfo.Password, userInfo.Gender, userInfo.Name, 
-             userInfo.LastName, userInfo.DateOfBirth, 
-             userInfo.IsAnonymousProfile, userInfo.IsJustChatting);
+
+         var user = new User(Guid.NewGuid(), userInfo.Login, userInfo.Password, userInfo.Name){
+             Gender = userInfo.Gender, LastName = userInfo.LastName, DateOfBirth = userInfo.DateOfBirth, 
+             IsAnonymousProfile = userInfo.IsAnonymousProfile, IsJustChatting = userInfo.IsJustChatting
+             };
          _appDbContext.Users.Add(user);
          await _appDbContext.SaveChangesAsync(cancellationToken);
-
+        
          return user.Id;
      }
 
