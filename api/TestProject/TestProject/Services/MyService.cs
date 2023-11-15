@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TestProject.Context;
 using TestProject.Dtos;
 using TestProject.Models;
+using TestProject.Security;
 
 namespace TestProject.Services;
 
@@ -10,10 +11,12 @@ public class MyService : IMyService
 {
     // ----------
     private readonly IAppDbContext _appDbContext;
+    private readonly IPasswordHasher _passwordHash;
     
-     public MyService(IAppDbContext appDbContext)
+     public MyService(IAppDbContext appDbContext, IPasswordHasher passwordHash)
      {
          _appDbContext = appDbContext;
+         _passwordHash = passwordHash;
      }
 
      public async Task<Guid> CreateUser(UserDto userInfo, CancellationToken cancellationToken)
@@ -25,7 +28,9 @@ public class MyService : IMyService
              throw new ArgumentException($"Пользователь с именем {userInfo.Login} уже существует");
          }
 
-         var user = new User(Guid.NewGuid(), userInfo.Login, userInfo.Password, userInfo.Name){
+         var passwordHash = _passwordHash.Hash(userInfo.Password);
+         
+         var user = new User(Guid.NewGuid(), userInfo.Login, passwordHash, userInfo.Name){
              Gender = userInfo.Gender, LastName = userInfo.LastName, DateOfBirth = userInfo.DateOfBirth, 
              IsAnonymousProfile = userInfo.IsAnonymousProfile, IsJustChatting = userInfo.IsJustChatting
              };
@@ -43,7 +48,10 @@ public class MyService : IMyService
          {
              return false;
          }
-         return user.Login == userDtoInfo.Login && user.Password == userDtoInfo.Password;
+
+         var verificationPassword = _passwordHash.Verify(user.Password, userDtoInfo.Password);
+         
+         return user.Login == userDtoInfo.Login && verificationPassword;
      }
           
 }
