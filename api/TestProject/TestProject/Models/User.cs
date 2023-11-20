@@ -12,7 +12,7 @@ public class User : Entity<Guid>
         
     }
 
-    public string Login { get; set; }
+    public string Login { get; private set; }
     public string Password { get; set; }
     public string Gender { get; set; }
     public string Name { get; set; }
@@ -20,11 +20,5 @@ public class User : Entity<Guid>
     public DateTimeOffset DateOfBirth { get; set; }
     public bool IsAnonymousProfile { get; set; }
     public bool IsJustChatting { get; set; }
-    
-    
-
-
-
-
 }
 // " Server=localhost;Database=postgres;Port=5432;User Id=postgres;Password=qwerty229322;"
