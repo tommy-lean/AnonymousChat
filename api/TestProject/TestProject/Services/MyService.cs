@@ -31,7 +31,7 @@ public class MyService : IMyService
          var passwordHash = _passwordHash.Hash(userInfo.Password);
          
          var user = new User(Guid.NewGuid(), userInfo.Login, passwordHash, userInfo.Name){
-             Gender = userInfo.Gender, LastName = userInfo.LastName, DateOfBirth = userInfo.DateOfBirth, 
+             Gender = userInfo.Gender, LastName = userInfo.LastName, DateOfBirth = userInfo.DateOfBirth.GetValueOrDefault(), 
              IsAnonymousProfile = userInfo.IsAnonymousProfile, IsJustChatting = userInfo.IsJustChatting
              };
          _appDbContext.Users.Add(user);
@@ -49,6 +49,7 @@ public class MyService : IMyService
              return false;
          }
 
+         
          var verificationPassword = _passwordHash.Verify(user.Password, userDtoInfo.Password);
          
          return user.Login == userDtoInfo.Login && verificationPassword;

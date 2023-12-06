@@ -4,22 +4,43 @@ import React, {useState} from "react";
 import { Form } from 'react-bootstrap';
 import {ModalAuthorization} from "./ModalAuthorization";
 import axios from "axios";
+import {log} from "util";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 export function ModalWindow() {
 
-    const [data, setData] = useState({})
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
+    const [registrationSuccess, setRegistrationSuccess] = useState(false)
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault()
-        const formData = new FormData(event.target)
 
-        axios.post('', formData)
-            .then((response) => {
-                setData(response.data)
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const data = {
+            login: username,
+            password: password,
+            gender: "string",
+            name: "string",
+            lastName: "string",
+        };
+        axios.post('https://localhost:44381/WeatherForecast/createUser', data)
+            .then(response => {
+                if (response && response.data) {
+                    console.log(response.data);
+                    setRegistrationSuccess(true)
+                    setSuccessMessage('Добро пожаловать!')
+                }
             })
-    }
 
-
+            .catch(error => {
+                if (error && error.response && error.response.data) {
+                    console.log(error.response.data);
+                }
+            });
+    };
 
     // --------------------------------------------------------------------
     const [show, setShow] = useState(false);
@@ -31,8 +52,6 @@ export function ModalWindow() {
     const registrationClose = () => regShow(false);
 
     const registrationOpen = () => regShow(true);
-
-
 
     if(!registration){
         return (
@@ -47,7 +66,7 @@ export function ModalWindow() {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group onSubmit={handleSubmit} className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Group  className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Ваш email</Form.Label>
                                 <Form.Control
                                     type="email"
@@ -57,11 +76,11 @@ export function ModalWindow() {
                             </Form.Group>
                             <Form.Group
                                 className="mb-3"
-                                controlId="exampleForm.ControlInput1"
+                                controlId="exampleForm.ControlInput2"
                             >
                                 <Form.Label>Пароль</Form.Label>
                                 <Form.Control
-                                    type="email"
+                                    type="password"
                                     placeholder=""
                                     autoFocus
                                 />
@@ -88,29 +107,34 @@ export function ModalWindow() {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Регистрация</Modal.Title>
+                        <Modal.Title>{!registrationSuccess ? ("Регистрация") : ("Регистрация выполнена")}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form>
+                        {!registrationSuccess ? (
+                        <Form onSubmit={handleSubmit}>
                             <Form.Group
                                 className="mb-3"
-                                controlId="exampleForm.ControlInput1"
+                                controlId="formBasicUser"
                             >
                                 <Form.Label>Ваш email</Form.Label>
                                 <Form.Control
-                                    type="email"
-                                    placeholder="name@example.com"
+                                    type="text"
+                                    placeholder="Введите ваш email"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     autoFocus
                                 />
                             </Form.Group>
                             <Form.Group
                                 className="mb-3"
-                                controlId="exampleForm.ControlInput2"
+                                controlId="formBasicPassword"
                             >
                                 <Form.Label>Пароль</Form.Label>
                                 <Form.Control
                                     type="password"
-                                    placeholder=""
+                                    placeholder="Введите пароль"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     autoFocus
                                 />
                             </Form.Group>
@@ -120,48 +144,29 @@ export function ModalWindow() {
                             >
                                 <Form.Label>Повторите пароль</Form.Label>
                                 <Form.Control
-                                    type="password"
+                                    type="password3"
                                     placeholder=""
                                     autoFocus
                                 />
                             </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
                         <Button className="btn-sm" variant="light" onClick={registrationClose}>
                             Вход
                         </Button>
-                        <Button variant="dark">
+                        <Button variant="dark" type="submit">
                             Зарегистрироваться
                         </Button>
-                    </Modal.Footer>
+                        </Form>
+                            ) : (<><p className={"regSuccess"}>{successMessage}</p>
+                            <div className="footer">
+                                <Button className="btnReg" variant="warning">Продолжить</Button>
+                            </div>
+
+                        </>)}
+                    </Modal.Body>
+                    {/*<Modal.Footer>*/}
+                    {/*</Modal.Footer>*/}
                 </Modal>
             </>
         );
     }
-
-
-
-        // <div
-        //     className="modal show"
-        //     style={{ display: 'block', marginLeft: 'auto', marginTop: 'auto' }}
-        // >
-        //     <Modal.Dialog>
-        //         <Modal.Header closeButton>
-        //             <Modal.Title>Modal title</Modal.Title>
-        //         </Modal.Header>
-        //
-        //         <Modal.Body>
-        //             <p>Modal body text goes here.</p>
-        //             <p>Modal body text goes here.22</p>
-        //         </Modal.Body>
-        //
-        //         <Modal.Footer>
-        //             <Button className="btn" variant="secondary">Регистрация</Button>
-        //             <Button className="btn-lg" variant="primary">отмена</Button>
-        //             <Button className="btn-lg" variant="primary">Продолжить</Button>
-        //         </Modal.Footer>
-        //     </Modal.Dialog>
-        // </div>
-
 }
