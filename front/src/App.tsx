@@ -6,6 +6,7 @@ import {AboutUs} from "./components/AboutUs";
 import background from "./images/secondaryBackground.jpg"
 import Modal from "react-bootstrap/Modal";
 import {ModalWindow} from "./components/ModalWindow";
+import ModalWindow2 from "./components/ModalWindow2";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
                 <NaviBar></NaviBar>
                 <AboutUs></AboutUs>
                 <ModalWindow></ModalWindow>
+
           </div>
       </>
 );

@@ -22,7 +22,9 @@ internal static class EntityFrameworkExtensions
                                       throw new InvalidOperationException("Строка подключения к БД не настроена.");
                 
                 builder.UseNpgsql(connectionString, optionsBuilder => optionsBuilder.EnableRetryOnFailure());
+                
             });
+        
         services.AddScoped<IAppDbContext, AppDbContext>();
         return services;
     }

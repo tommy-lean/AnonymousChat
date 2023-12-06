@@ -7,7 +7,7 @@ export function AboutUs(){
         <>
             <div className="container">
                 <h1 className="text-warning text-center">О нас</h1>
-                <p>
+                <p className={"aboutUs"}>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
                     accusamus eligendi molestiae. Magnam, at sit? Inventore eum quam
                     labore doloribus ab, nesciunt libero ipsa excepturi quidem mollitia.
@@ -15,7 +15,7 @@ export function AboutUs(){
                     porro labore, ab sunt quam ipsum, suscipit exercitationem vitae? Rem
                     consequuntur quis quae eligendi.
                 </p>
-                <p>
+                <p className={"aboutUs"}>
                     Dolorum consequuntur eius voluptatem maiores. Similique unde eaque
                     nostrum temporibus reiciendis iste, dolorum aspernatur error
                     tempora, itaque ut vitae et voluptas consectetur! Quam provident

@@ -11,14 +11,15 @@ public class User : Entity<Guid>
         Name = name;
         
     }
-
+/// <summary>
+///  логин...
+/// </summary>
     public string Login { get; private set; }
     public string Password { get; set; }
-    public string Gender { get; set; }
+    public string? Gender { get; set; }
     public string Name { get; set; }
-    public string LastName { get; set; }
-    public DateTimeOffset DateOfBirth { get; set; }
+    public string? LastName { get; set; }
+    public DateTimeOffset? DateOfBirth { get; set; }
     public bool IsAnonymousProfile { get; set; }
     public bool IsJustChatting { get; set; }
 }
-// " Server=localhost;Database=postgres;Port=5432;User Id=postgres;Password=qwerty229322;"

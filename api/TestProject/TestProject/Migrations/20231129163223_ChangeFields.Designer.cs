@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TestProject.Context;
@@ -11,9 +12,11 @@ using TestProject.Context;
 namespace TestProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231129163223_ChangeFields")]
+    partial class ChangeFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,10 +31,11 @@ namespace TestProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset?>("DateOfBirth")
+                    b.Property<DateTimeOffset>("DateOfBirth")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsAnonymousProfile")
@@ -41,6 +45,7 @@ namespace TestProject.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Login")
